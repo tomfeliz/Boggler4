@@ -57,11 +57,32 @@ void Dictionary::MapWord(tstring word)
 		}
 		
 		// Set current node pointer to matching child node.
-		current = &(current->children->at(c));
+		current = &(*current->children)[c];
 	}
 
 	// Assume we have a complete word at this point.
 	current->IsWord = true;
+}
+
+bool Dictionary::Find(tstring stringToFind)
+{
+	auto current = &root;
+
+	for (auto c : stringToFind)
+	{
+		if (current->children == nullptr || current->children->size() == 0)
+			return false;
+
+		if (current->children->find(c) == current->children->end())
+		{
+			return false;
+		}
+		
+		// Set current node pointer to matching child node.
+		current = &(*current->children)[c];
+	}
+
+	return current->IsWord;
 }
 
 size_t Dictionary::GetWordCount() const

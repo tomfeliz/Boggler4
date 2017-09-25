@@ -28,13 +28,13 @@ namespace Boggler
 	{
 	public:
 		bool LoadWordList(const tstring &wordFileName);
+		bool Find(tstring stringToFind);
 		size_t GetWordCount() const;
 
 		std::vector<tstring> WordList;
 		std::set<TCHAR> FirstLetters;
 	private:
 		void MapWord(tstring word);
-
 		TrieNode root;
 	};
 }
