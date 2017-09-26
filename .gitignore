@@ -3,3 +3,5 @@
 Debug/
 ipch/
 enc_temp_folder/
+*.user
+*.suo

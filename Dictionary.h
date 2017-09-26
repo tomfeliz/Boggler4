@@ -28,7 +28,7 @@ namespace Boggler
 	{
 	public:
 		bool LoadWordList(const tstring &wordFileName);
-		bool Find(tstring stringToFind);
+		std::pair<bool /* letters match */, bool /* Is Word */> Find(tstring stringToFind);
 		size_t GetWordCount() const;
 
 		std::vector<tstring> WordList;

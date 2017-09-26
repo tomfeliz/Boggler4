@@ -64,25 +64,27 @@ void Dictionary::MapWord(tstring word)
 	current->IsWord = true;
 }
 
-bool Dictionary::Find(tstring stringToFind)
+std::pair<bool /* letters match */, bool /* Is Word */> Dictionary::Find(tstring stringToFind)
 {
 	auto current = &root;
 
 	for (auto c : stringToFind)
 	{
+		// No children left to match letters.
 		if (current->children == nullptr || current->children->size() == 0)
-			return false;
+			return{ false, false };
 
+		// Next letter doesn't match any children.
 		if (current->children->find(c) == current->children->end())
 		{
-			return false;
+			return{ false, false };
 		}
 		
 		// Set current node pointer to matching child node.
 		current = &(*current->children)[c];
 	}
 
-	return current->IsWord;
+	return{ true, current->IsWord };
 }
 
 size_t Dictionary::GetWordCount() const
