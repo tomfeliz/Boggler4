@@ -31,10 +31,10 @@ namespace Boggler
 		std::pair<bool /* letters match */, bool /* Is Word */> Find(tstring stringToFind);
 		size_t GetWordCount() const;
 
-		std::vector<tstring> WordList;
-		std::set<TCHAR> FirstLetters;
 	private:
 		void MapWord(tstring word);
+
+		std::vector<tstring> WordList;
 		TrieNode root;
 	};
 }

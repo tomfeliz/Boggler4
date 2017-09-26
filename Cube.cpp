@@ -9,12 +9,12 @@ namespace Boggler
 	template Cube<TCHAR>;
 
 	template<typename T>
-	Cube<T>::Cube(const tstring &rawData)
+	Cube<T>::Cube(const tstring &cubeData)
 	{
 		_cubies.reserve(NumCubies);
 
 		// First, populate the Cubie array from the raw data.
-		PopulateCube(rawData);
+		PopulateCube(cubeData);
 
         // Second, find adjacent Cubies and populate path cache.
         PopulateNeighbors();
@@ -26,7 +26,7 @@ namespace Boggler
 	template<typename T>
     bool Cube<T>::FindWord(const tstring &word)
     {
-        bool found = false;
+	    auto found = false;
 		auto wordLen = word.size();
 
         if (wordLen <= PrefixLength)
@@ -61,8 +61,8 @@ namespace Boggler
 	template<typename T>
 	bool Cube<T>::FindWordRecursive(const std::vector<Cubie<T>*>& fromPath, tstring subWord, vector<bool>& cubieMap)
     {
-		int subWordLen = static_cast<int>(subWord.size());
-        bool found = false;
+	    auto subWordLen = static_cast<int>(subWord.size());
+	    auto found = false;
 
         for (const auto cubie : fromPath)
         {
@@ -78,7 +78,7 @@ namespace Boggler
 			for (const auto toPath : pathIter->second)
 			{
 				// Make sure path does not overlap the path already traversed.
-				bool overlap = false;
+				auto overlap = false;
 				for (const auto c2 : toPath)
 				{
 					if (cubieMap[c2->GetCubieNumber()])

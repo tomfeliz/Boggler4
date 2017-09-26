@@ -88,13 +88,13 @@ int _tmain(int argc, _TCHAR* argv[])
 		auto count = 0;
 		auto start3 = clock();
 
-		for (auto word : dict.WordList)
-		{
-			if (cube->FindWord(word))
-			{
-				++count;
-			}
-		}
+		//for (auto word : dict.WordList)
+		//{
+		//	if (cube->FindWord(word))
+		//	{
+		//		++count;
+		//	}
+		//}
 
 		auto finish3 = clock();
 		results[cubeNum++] = make_pair(count, static_cast<float>(finish3 - start3) * 1000 / CLOCKS_PER_SEC);
