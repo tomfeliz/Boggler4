@@ -8,7 +8,9 @@
 #include <memory>
 #include <string>
 #include <vector>
+
 #include "Cubie.h"
+#include "Dictionary.h"
 
 typedef std::basic_string<TCHAR> tstring;
 
@@ -22,6 +24,7 @@ namespace Boggler
 			Cube(const tstring &rawData);
 			~Cube() { }
 			bool FindWord(const tstring &word);
+			int CountWords(Dictionary& dict);
 			void PopulatePathCache();
 
 		private:
