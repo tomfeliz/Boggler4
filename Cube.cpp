@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Cube.h"
 #include <atomic>
+#include <cassert>
 
 using namespace std;
 
@@ -128,24 +129,40 @@ namespace Boggler
 	template<typename T>
 	int Cube<T>::CountWords(Dictionary& dict)
 	{
-		atomic<int> count = 0;
+		atomic<int> wordCount = 0;
+
+		for (auto curCubie : _cubies)
+		{
+			tstring word{ curCubie->GetValue() };
+			wordCount += CountWordsRecursive(curCubie, word, dict);
+		}
+		return wordCount;
+	}
+
+	template<typename T>
+	int Cube<T>::CountWordsRecursive(const Cubie<T>* curCubie, tstring subWord, Dictionary& dict)
+	{
+		auto wordCount = 0;
 		auto match = false;
 		auto isWord = false;
-		for (auto cubie : _cubies)
-		{
-			tstring word{ cubie->GetValue() };
-			std::tie(match, isWord) = dict.Find(word);
-			//if (!match) return 0;
-			if (isWord) ++count;
 
-			for (auto nextCubie : cubie->GetNeighbors())
+		std::tie(match, isWord) = dict.Find(subWord);
+		if (!match) return 0;
+
+		if (isWord) ++wordCount;
+
+		for (auto nextCubie : curCubie->GetNeighbors())
+		{
+			subWord.append({ nextCubie.GetValue() });
+			wordCount += CountWordsRecursive(nextCubie, subWord, dict);
+			
+			if (match)
 			{
-				std::tie(match, isWord) = dict.Find(word + nextCubie->GetValue());
-				if (!match) return 0;
-				if (isWord) ++count;
+
 			}
+			if (isWord) ++wordCount;
 		}
-		return count;
+		return wordCount;
 	}
 
 #pragma endregion
