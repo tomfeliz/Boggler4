@@ -47,8 +47,8 @@ namespace Boggler
 
 		// Search for passed in word/sub-word
 		std::tie(match, isWord) = dict.Find(subWord);
-		if (!match) return 0; // No mtch, so we're done.
-		if (isWord) wordCount++; // If a word in dictionary, increment counter.
+		if (!match) return 0; // No match, so we're done.
+		if (isWord) wordCount++; // If the word is in dictionary, increment counter.
 
 		// Set visited flag for cubie.
 		cubieMap[curCubie->GetCubieNumber()] = true;

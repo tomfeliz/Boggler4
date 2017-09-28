@@ -1,4 +1,4 @@
-#include  "stdafx.h"
+#include "stdafx.h"
 #include <fstream>
 #include <vector>
 #include <string>
