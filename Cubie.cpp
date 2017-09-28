@@ -30,7 +30,7 @@ namespace Boggler
 
 	template<typename T>
 	//shared_ptr<vector<shared_ptr<Cubie<T>>>> Cubie<T>::GetNeighbors()
-	const vector<Cubie<T>*> & Cubie<T>::GetNeighbors()
+	const vector<Cubie<T>*> & Cubie<T>::GetNeighbors() const
 	{
 		return _neighbors;
 	}
@@ -48,7 +48,7 @@ namespace Boggler
 	}
 
 	template<typename T>
-	const int Cubie<T>::GetCubieNumber() const
+	int Cubie<T>::GetCubieNumber() const
 	{
 		return _cubieNumber;
 	}

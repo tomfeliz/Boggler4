@@ -1,12 +1,7 @@
 #pragma once
 #pragma warning(disable:4503)
 
-//#include "stdafx.h"
-#include <array>
-#include <deque>
 #include <map>
-#include <memory>
-#include <string>
 #include <vector>
 
 #include "Cubie.h"
@@ -21,12 +16,10 @@ namespace Boggler
 	{
 		public:
 			Cube() { }
-			Cube(const tstring &rawData);
+			explicit Cube(const tstring &rawData);
 			~Cube() { }
-			bool FindWord(const tstring &word);
-			int CountWords(Dictionary& dict);
-			int CountWordsRecursive(Cubie<T>* curCubie, tstring subWord, Dictionary& dict);
-			void PopulatePathCache();
+			int CountWords(const Dictionary& dict) const;
+			int CountWordsRecursive(const Cubie<T>* curCubie, const tstring subWord, std::vector<bool>& cubieMap, const Dictionary& dict) const;
 
 		private:
 			static const int Dimension = 4;
@@ -36,10 +29,8 @@ namespace Boggler
 			std::vector<Cubie<T>*> _cubies;
 			std::map<tstring, std::vector<std::vector<Cubie<T>*>>> _pathCache;
 
-			bool FindWordRecursive(const std::vector<Cubie<T>*> &fromPath, tstring subWord, std::vector<bool> &cubieMap);
 			void PopulateCube(const tstring &rawData);
 			void PopulateNeighbors();
-			std::vector<Cubie<T>*> GetCubieNeighbors(int cubieNum);
-			void AddPathCacheEntry(const tstring &pattern, std::vector<Cubie<T>*> &cubiePath);
+			std::vector<Cubie<T>*> GetCubieNeighbors(int cubieNum) const;
 	};
 }

@@ -64,7 +64,7 @@ void Dictionary::MapWord(tstring word)
 	current->IsWord = true;
 }
 
-std::pair<bool /* letters match */, bool /* Is Word */> Dictionary::Find(tstring stringToFind)
+std::pair<bool /* letters match */, bool /* Is Word */> Dictionary::Find(const tstring stringToFind) const
 {
 	auto current = &root;
 

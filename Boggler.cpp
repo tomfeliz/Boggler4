@@ -78,41 +78,29 @@ int _tmain(int argc, _TCHAR* argv[])
 		<< static_cast<float>(finish2 - start2) / CLOCKS_PER_SEC << " seconds." << endl;
 
 	const int numBlocks = thread::hardware_concurrency();; // number of threads
-	cout << "Using " << numBlocks << " hardware threads." << endl;
-	map<int, pair<int, float>> results;
+	std::cout << "Using " << numBlocks << " hardware threads." << endl;
 	atomic<int> cubeNum = 0;
-	//mutex cons;
+	mutex cons;
 
-	parallel_for_each(begin(CubeList), end(CubeList), [&dict, &results, &cubeNum](shared_ptr<Cube<TCHAR>>& cube)
+	parallel_for_each(begin(CubeList), end(CubeList), [&dict, &cubeNum, &cons](shared_ptr<Cube<TCHAR>>& cube)
+	//for_each(begin(CubeList), end(CubeList), [&dict, &results, &cubeNum, &cons](shared_ptr<Cube<TCHAR>>& cube)
 	{
-		auto count = 0;
 		auto start3 = clock();
-
-		cube->CountWords(dict);
-		//for (auto word : dict.WordList)
-		//{
-		//	if (cube->FindWord(word))
-		//	{
-		//		++count;
-		//	}
-		//}
-
+		auto count = cube->CountWords(dict);
 		auto finish3 = clock();
-		results[cubeNum++] = make_pair(count, static_cast<float>(finish3 - start3) * 1000 / CLOCKS_PER_SEC);
+
+		cons.lock();
+		std::cout << "Cube " << ++cubeNum << ": " << count << " words ("
+			<< static_cast<double>((finish3 - start3) * 1000 / CLOCKS_PER_SEC) << " ms)" << endl;
+		cons.unlock();
 	});
 
-	for (unsigned int i = 0; i < results.size(); i++)
-	{
-		cout << "Cube " << (i + 1) << ": " << results[i].first << " words ("
-			<< results[i].second << " ms)" << endl;
-	}
-
 	auto finish0 = clock();
-    cout << "Total execution time: " << static_cast<float>(finish0 - start0) / CLOCKS_PER_SEC << " seconds" << endl;
+    std::cout << "Total execution time: " << static_cast<float>(finish0 - start0) / CLOCKS_PER_SEC << " seconds" << endl;
 
 	string temp;
-	cout << "Press enter to terminate program..." << endl;
-	getline(cin, temp);
+	std::cout << "Press enter to terminate program..." << endl;
+	std::getline(cin, temp);
 	return 0;
 }
 
@@ -131,12 +119,6 @@ bool LoadCubes(const tstring &cubeFileName)
 		}
 	}
 	cubeFile.close();
-
-	// Calculate cube path cache.
-	parallel_for_each(begin(CubeList), end(CubeList), [](shared_ptr<Cube<TCHAR>> cube)
-	{
-		cube->PopulatePathCache();
-	});
 
 	return true;
 }

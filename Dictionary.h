@@ -1,8 +1,6 @@
 #pragma once
 #include "stdafx.h"
 #include <map>
-#include <set>
-#include <string>
 #include <vector>
 #include <memory>
 
@@ -13,11 +11,7 @@ namespace Boggler
 	struct TrieNode
 	{
 		TrieNode() : Letter(static_cast<TCHAR>(0)), IsWord(false) {}
-
 		TrieNode(TCHAR c, bool b) : Letter(c), IsWord(b) {}
-		//{
-		//	children = std::make_shared<std::map<TCHAR, TrieNode>>();
-		//}
 
 		TCHAR Letter;
 		bool IsWord;
@@ -26,15 +20,15 @@ namespace Boggler
 
 	class Dictionary
 	{
-	public:
-		bool LoadWordList(const tstring &wordFileName);
-		std::pair<bool /* letters match */, bool /* Is Word */> Find(tstring stringToFind);
-		size_t GetWordCount() const;
+		public:
+			bool LoadWordList(const tstring &wordFileName);
+			std::pair<bool /* letters match */, bool /* Is Word */> Find(const tstring stringToFind) const;
+			size_t GetWordCount() const;
 
-	private:
-		void MapWord(tstring word);
+		private:
+			void MapWord(tstring word);
 
-		std::vector<tstring> WordList;
-		TrieNode root;
+			std::vector<tstring> WordList;
+			TrieNode root;
 	};
 }

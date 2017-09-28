@@ -5,3 +5,4 @@ ipch/
 enc_temp_folder/
 *.user
 *.suo
+x64/
