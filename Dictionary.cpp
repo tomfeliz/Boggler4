@@ -52,7 +52,7 @@ void Dictionary::MapWord(tstring word)
 		// Add a new child TrieNode, if needed.
 		if (current->children->find(c) == current->children->end())
 		{
-			TrieNode child;
+			TrieNode child {c, false};
 			(*current->children)[c] = child; //copy
 		}
 		

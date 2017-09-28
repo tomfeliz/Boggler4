@@ -25,7 +25,7 @@ namespace Boggler
 			~Cube() { }
 			bool FindWord(const tstring &word);
 			int CountWords(Dictionary& dict);
-			int CountWordsRecursive(const Cubie<T>* curCubie, tstring subWord, Dictionary& dict);
+			int CountWordsRecursive(Cubie<T>* curCubie, tstring subWord, Dictionary& dict);
 			void PopulatePathCache();
 
 		private:

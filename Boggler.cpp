@@ -88,6 +88,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		auto count = 0;
 		auto start3 = clock();
 
+		cube->CountWords(dict);
 		//for (auto word : dict.WordList)
 		//{
 		//	if (cube->FindWord(word))

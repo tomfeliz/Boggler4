@@ -140,7 +140,7 @@ namespace Boggler
 	}
 
 	template<typename T>
-	int Cube<T>::CountWordsRecursive(const Cubie<T>* curCubie, tstring subWord, Dictionary& dict)
+	int Cube<T>::CountWordsRecursive(Cubie<T>* curCubie, tstring subWord, Dictionary& dict)
 	{
 		auto wordCount = 0;
 		auto match = false;
@@ -148,19 +148,17 @@ namespace Boggler
 
 		std::tie(match, isWord) = dict.Find(subWord);
 		if (!match) return 0;
-
-		if (isWord) ++wordCount;
+		if (isWord) 
+			wordCount++;
+		//if(curCubie->GetNeighbors().size() == 0)
+		//{
+		//	return isWord ? 1 : 0;
+		//}
 
 		for (auto nextCubie : curCubie->GetNeighbors())
 		{
-			subWord.append({ nextCubie.GetValue() });
-			wordCount += CountWordsRecursive(nextCubie, subWord, dict);
-			
-			if (match)
-			{
-
-			}
-			if (isWord) ++wordCount;
+			//subWord.append({ nextCubie->GetValue() });
+			wordCount = CountWordsRecursive(nextCubie, subWord + nextCubie->GetValue(), dict);
 		}
 		return wordCount;
 	}
