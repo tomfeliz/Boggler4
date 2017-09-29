@@ -4,6 +4,8 @@
 #include <string>
 #include <regex>
 #include <set>
+#include <unordered_map>
+
 #include "Dictionary.h"
 
 using namespace Boggler;
@@ -46,7 +48,7 @@ void Dictionary::MapWord(tstring word)
 		// Instantiate child map, if needed.
 		if (current->children == nullptr)
 		{
-			current->children = std::make_shared<std::map<TCHAR, TrieNode>>();
+			current->children = std::make_shared<std::unordered_map<TCHAR, TrieNode>>();
 		}
 
 		// Add a new child TrieNode, if needed.

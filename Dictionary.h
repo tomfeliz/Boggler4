@@ -1,6 +1,6 @@
 #pragma once
 #include "stdafx.h"
-#include <map>
+#include <unordered_map>
 #include <vector>
 #include <memory>
 
@@ -15,7 +15,7 @@ namespace Boggler
 
 		TCHAR Letter;
 		bool IsWord;
-		std::shared_ptr<std::map<TCHAR, TrieNode>> children;
+		std::shared_ptr<std::unordered_map<TCHAR, TrieNode>> children;
 	};
 
 	class Dictionary
