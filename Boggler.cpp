@@ -82,11 +82,11 @@ int _tmain(int argc, _TCHAR* argv[])
 	atomic<int> cubeNum = 0;
 	mutex cons;
 
-	for_each(begin(CubeList), end(CubeList), [&dict, &cubeNum, &cons](shared_ptr<Cube<TCHAR>>& cube)
-	//parallel_for_each(begin(CubeList), end(CubeList), [&dict, &cubeNum, &cons](shared_ptr<Cube<TCHAR>>& cube)
+	//for_each(begin(CubeList), end(CubeList), [&dict, &cubeNum, &cons](shared_ptr<Cube<TCHAR>>& cube)
+	parallel_for_each(begin(CubeList), end(CubeList), [&dict, &cubeNum, &cons](shared_ptr<Cube<TCHAR>>& cube)
 	{
 		auto start3 = clock();
-		auto count = cube->CountWords(dict);
+		auto count = cube->FindWords(dict);
 		auto finish3 = clock();
 
 		cons.lock();

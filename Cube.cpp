@@ -1,7 +1,10 @@
 #include "stdafx.h"
 #include "Cube.h"
+#include <algorithm>
 #include <atomic>
-#include <iostream>
+//#include <iostream>
+#include <unordered_set>
+#include <mutex>
 
 using namespace std;
 
@@ -25,30 +28,35 @@ namespace Boggler
 #pragma region CountWords
 
 	template<typename T>
-	int Cube<T>::CountWords(const Dictionary& dict) const
+	int Cube<T>::FindWords(const Dictionary& dict) const
 	{
-		auto wordCount = 0;
+		unordered_set<tstring> wordsFound;
 
 		for (auto curCubie : _cubies)
 		{
 			tstring word{ curCubie->GetValue() };
 			vector<bool> cubieMap(NumCubies, false);
-			wordCount += CountWordsRecursive(curCubie, word, cubieMap, dict);
+			FindWordsRecursive(curCubie, word, cubieMap, dict, wordsFound);
 		}
-		return wordCount;
+
+		return static_cast<int>(wordsFound.size());
 	}
 
 	template<typename T>
-	int Cube<T>::CountWordsRecursive(const Cubie<T>* curCubie, const tstring subWord, vector<bool>& cubieMap, const Dictionary& dict) const
+	void Cube<T>::FindWordsRecursive(const Cubie<T>* curCubie, const tstring subWord, vector<bool>& cubieMap, 
+		const Dictionary& dict, unordered_set<tstring>& wordsFound) const
 	{
-		auto wordCount = 0;
 		auto match = false;
 		auto isWord = false;
 
 		// Search for passed in word/sub-word
 		std::tie(match, isWord) = dict.Find(subWord);
-		if (!match) return 0; // No match, so we're done.
-		if (isWord) wordCount++; // If the word is in dictionary, increment counter.
+		if (!match) return; // No match, so we're done.
+		if (isWord)
+		{
+			// If a word, enter into wordsFound set (can be a duplicate).
+			wordsFound.insert(subWord);
+		}
 
 		// Set visited flag for cubie.
 		cubieMap[curCubie->GetCubieNumber()] = true;
@@ -61,13 +69,11 @@ namespace Boggler
 				continue;
 
 			// Recursive call to next neighbor cubie.
-			wordCount += CountWordsRecursive(nextCubie, subWord + nextCubie->GetValue(), cubieMap, dict);
+			FindWordsRecursive(nextCubie, subWord + nextCubie->GetValue(), cubieMap, dict, wordsFound);
 		}
 
 		// Clear visited flag for cubie.
 		cubieMap[curCubie->GetCubieNumber()] = false;
-
-		return wordCount;
 	}
 
 #pragma endregion
