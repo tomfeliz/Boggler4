@@ -63,6 +63,10 @@ namespace Boggler
 			// Recursive call to next neighbor cubie.
 			wordCount += CountWordsRecursive(nextCubie, subWord + nextCubie->GetValue(), cubieMap, dict);
 		}
+
+		// Clear visited flag for cubie.
+		cubieMap[curCubie->GetCubieNumber()] = false;
+
 		return wordCount;
 	}
 
